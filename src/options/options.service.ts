@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Option } from '../entities/option.entity';
-import { CreateOptionDto } from '../dto/create-option-dto';
+import { CreateOptionDto } from './dto/create-option-dto';
+import { Option } from './entities/option.entity';
 
 @Injectable()
-export class OptionsService{
+export class OptionsService {
 
     private options: Option[] = [];
     private idCounter = 1;
@@ -19,8 +19,8 @@ export class OptionsService{
     findAll(): Option[] {
         return this.options;
     }
-    findOne(id:number): Option {
-        const option = this.options.find((u)=>u.id === id);
+    findOne(id: number): Option {
+        const option = this.options.find((u) => u.id === id);
         if (!option) {
             throw new Error(`Option with ID ${id} not found`);
         }
@@ -38,5 +38,13 @@ export class OptionsService{
         } as Option;
         this.options[index] = updatedOption;
         return this.options[index];
-}
+    }
+
+    remove(id: number): void {
+        const index = this.options.findIndex((u) => u.id === id);   
+        if (index === -1) {
+            throw new Error(`Option with ID ${id} not found`);
+        }
+        this.options.splice(index, 1);
+    }
 }

@@ -1,13 +1,25 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UtilisateursModule } from './utilisateurs/utilisateurs.module';
+import { LoggerMiddleware } from './logger.middleware';
+import { OptionController } from './options/option.controller';
 import { OptionsModule } from './options/options.module';
+import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [UtilisateursModule, OptionsModule, UserModule],
-  controllers: [AppController],
+  imports: [ OptionsModule, UserModule],
+  controllers: [
+     AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule  {
+    configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes(UserController , OptionController);
+      //.forRoutes({ path: '*', method: RequestMethod.POST }); // 🔹 uniquement pour tous les POST
+      //.forRoutes({ path: 'user', method: RequestMethod.POST }) cibler le controller 
+
+ }
+}
