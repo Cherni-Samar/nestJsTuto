@@ -14,7 +14,7 @@ export class LoggerMiddleware implements NestMiddleware {
     const { method, originalUrl } = req;
     const { statusCode } = res;
     this.logger.log(`${method} ${originalUrl} ${statusCode}`);
-    //console.log('Request...');
+    //console.log("samar");
     next();
   }
 }
