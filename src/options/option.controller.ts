@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { CreateOptionDto } from './dto/create-option-dto';
 import { OptionsService } from './options.service';
 
-@Controller("options")
+@Controller("option")
 export class OptionController {
 
     constructor(private readonly optionsService: OptionsService) { }
@@ -19,17 +19,17 @@ export class OptionController {
 
     @Get('detail/:id')
     findOptionById(@Param('id') id: number) {
-        return this.optionsService.findOne(id);
+        return this.optionsService.findOne(+id);
     }
 
-    @Patch(':id')
+    @Patch('edir/:id')
     updateOption(@Param('id') id: number, @Body() updateOptionDto: CreateOptionDto) {
-        return this.optionsService.update(id, updateOptionDto);
+        return this.optionsService.update(+id, updateOptionDto);
     }
 
-    @Delete(':id')
+    @Delete('delete/:id')
     removeOption(@Param('id') id: number) {
-        return this.optionsService.remove(id);
+        return this.optionsService.remove(+id);
     }
 
 
