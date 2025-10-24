@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user-dto';
 import { UpdateUserDto } from './dto/update-user-dto';
 import { UserService } from './user.service';
@@ -33,4 +33,8 @@ export class UserController {
         return this.userService.remove(+id);
     }
 
+ @Get('filtreBy')
+   filterUsers(@Query('firstName') firstName?: string, @Query('age') age?: number,) {
+    return this.userService.filterUsers(firstName, age);
+  }
 }
